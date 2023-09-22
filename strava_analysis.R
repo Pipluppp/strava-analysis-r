@@ -1,51 +1,51 @@
----
-title: "strava_analysis"
-format: html
-editor: visual
-output:
-    df_print: paged
----
-
-## Data tidy
-
-```{r}
+#' ---
+#' title: "strava_analysis"
+#' format: html
+#' editor: visual
+#' output:
+#'     df_print: paged
+#' ---
+#' 
+#' ## Data tidy
+#' 
+## --------------------------------------------------------------------------------------------------------------
 library(tidyverse)
 library(janitor)
 data <- read_csv("activities.csv")
 data <- data |> janitor::clean_names()
 data
-```
 
-Select needed columns and only take runs
-
-```{r}
+#' 
+#' Select needed columns and only take runs
+#' 
+## --------------------------------------------------------------------------------------------------------------
 
 data_select <- data |> 
     select(activity_id:activity_type) |> 
     filter (activity_type == "Run")
-```
 
-Separate into `date` and `time` columns
-
-```{r}
+#' 
+#' Separate into `date` and `time` columns
+#' 
+## --------------------------------------------------------------------------------------------------------------
 data_split_date <- data_select |> 
     separate(activity_date, c('date', 'time'), sep = ", (?=[^,]*$)")
 data_split_date
-```
 
-Turn date into proper date formate, make a day of the week `wday` column
-
-```{r}
+#' 
+#' Turn date into proper date formate, make a day of the week `wday` column
+#' 
+## --------------------------------------------------------------------------------------------------------------
 
 data_proper_date <- data_split_date |> 
     # turn to system's date format
     mutate(date = as.Date(date, format = "%b %d, %Y")) |> 
     mutate(wday = weekdays(date))
-```
 
-Complicated magic to finally handle time, and add the 8 hours (can't make timezone functions work)
-
-```{r}
+#' 
+#' Complicated magic to finally handle time, and add the 8 hours (can't make timezone functions work)
+#' 
+## --------------------------------------------------------------------------------------------------------------
 # Play with proper_time before appending to dataframe
 proper_time <- data_proper_date$time
 
@@ -60,24 +60,24 @@ proper_time <- proper_time |>
     as.POSIXct() + hours(8)
 
 
-```
 
-Append fixed time to dataframe
-
-```{r}
+#' 
+#' Append fixed time to dataframe
+#' 
+## --------------------------------------------------------------------------------------------------------------
 data_fixed_time <- data_proper_date
 data_fixed_time$time <- proper_time
-```
 
-## Data visualizations
-
-> The `time` being graphed is the start time of the activity
-
-### Bar chart
-
-Chart runs by day of the week
-
-```{r}
+#' 
+#' ## Data visualizations
+#' 
+#' > The `time` being graphed is the start time of the activity
+#' 
+#' ### Bar chart
+#' 
+#' Chart runs by day of the week
+#' 
+## --------------------------------------------------------------------------------------------------------------
 #| label: bar-chart
 
 week <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
@@ -89,13 +89,13 @@ ggplot(
     labs(x = "Day of the Week", y = "Count") +
     # order day of the weeks properly
     scale_x_discrete(limits = week)
-```
 
-### Density plot
-
-A density plot on the time of start of runs
-
-```{r}
+#' 
+#' ### Density plot
+#' 
+#' A density plot on the time of start of runs
+#' 
+## --------------------------------------------------------------------------------------------------------------
 #| label: density
 
 library(scales)
@@ -107,11 +107,11 @@ ggplot(data_fixed_time) +
     # fix x ticks
     scale_x_datetime(breaks = date_breaks("2 hours"), labels=date_format("%H:%M"))
 
-```
 
-### Histogram
-
-```{r}
+#' 
+#' ### Histogram
+#' 
+## --------------------------------------------------------------------------------------------------------------
 #| label: histogram
 
 ggplot(data_fixed_time) + 
@@ -119,13 +119,13 @@ ggplot(data_fixed_time) +
     scale_x_datetime(
         breaks = date_breaks("2 hours"),  labels = date_format("%H:%M")
 )
-```
 
-### Multiple densities
-
-Density plots like previous but superimposed across each day of the week
-
-```{r}
+#' 
+#' ### Multiple densities
+#' 
+#' Density plots like previous but superimposed across each day of the week
+#' 
+## --------------------------------------------------------------------------------------------------------------
 #| label: density-multi
 
 library(viridis)
@@ -143,13 +143,13 @@ ggplot(data_fixed_time) +
     # fancier colors from viridis
     scale_fill_viridis(discrete = TRUE) 
 
-```
 
-### Ridgeline
-
-Like multiple densities but separated by day, less messier
-
-```{r}
+#' 
+#' ### Ridgeline
+#' 
+#' Like multiple densities but separated by day, less messier
+#' 
+## --------------------------------------------------------------------------------------------------------------
 #| label: ridgeline
 
 library(ggridges)
@@ -166,4 +166,4 @@ ggplot(data_fixed_time) +
     # coloring
     scale_fill_viridis(discrete = TRUE)
 
-```
+

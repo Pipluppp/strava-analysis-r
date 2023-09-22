@@ -241,7 +241,7 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># order day of the weeks properly</span></span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> week)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="strava_analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="strava_analysis_files/figure-html/bar-chart-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -272,12 +272,12 @@ Attaching package: 'scales'</code></pre>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># fix x ticks</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_datetime</span>(<span class="at">breaks =</span> <span class="fu">date_breaks</span>(<span class="st">"2 hours"</span>), <span class="at">labels=</span><span class="fu">date_format</span>(<span class="st">"%H:%M"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="strava_analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="strava_analysis_files/figure-html/density-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
-<section id="historgram" class="level3">
-<h3 class="anchored" data-anchor-id="historgram">Historgram</h3>
+<section id="histogram" class="level3">
+<h3 class="anchored" data-anchor-id="histogram">Histogram</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_fixed_time) <span class="sc">+</span> </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> time), <span class="at">fill =</span> <span class="st">"darkcyan"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
@@ -288,7 +288,7 @@ Attaching package: 'scales'</code></pre>
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="strava_analysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="strava_analysis_files/figure-html/histogram-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -323,12 +323,12 @@ Attaching package: 'viridis'</code></pre>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># fancier colors from viridis</span></span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="strava_analysis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="strava_analysis_files/figure-html/density-multi-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
-<section id="ridgelines" class="level3">
-<h3 class="anchored" data-anchor-id="ridgelines">Ridgelines</h3>
+<section id="ridgeline" class="level3">
+<h3 class="anchored" data-anchor-id="ridgeline">Ridgeline</h3>
 <p>Like multiple densities but separated by day, less messier</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
@@ -348,7 +348,7 @@ Attaching package: 'viridis'</code></pre>
 <pre><code>Picking joint bandwidth of 3270</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="strava_analysis_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="strava_analysis_files/figure-html/ridgeline-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
