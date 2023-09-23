@@ -33,7 +33,7 @@ data_split_date <- data_select |>
 data_split_date
 ```
 
-Turn date into proper date formate, make a day of the week `wday` column
+Turn date into proper date format, make a day of the week `wday` column
 
 ```{r}
 
