@@ -19,7 +19,6 @@ data
 Select needed columns and only take runs
 
 ```{r}
-
 data_select <- data |> 
     select(activity_id:activity_type) |> 
     filter (activity_type == "Run")
@@ -40,7 +39,7 @@ Turn date into proper date format, make a day of the week `wday` column
 data_proper_date <- data_split_date |> 
     # turn to system's date format
     mutate(date = as.Date(date, format = "%b %d, %Y")) |> 
-    mutate(wday = weekdays(date))
+    mutate(wday = wday(date, label = TRUE))
 ```
 
 Complicated magic to finally handle time, and add the 8 hours (can't make timezone functions work)
@@ -80,15 +79,12 @@ Chart runs by day of the week
 ```{r}
 #| label: bar-chart
 
-week <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
 ggplot(
     data_proper_date, aes(x = wday)
 ) + 
     geom_bar() +
     # labels
-    labs(x = "Day of the Week", y = "Count") +
-    # order day of the weeks properly
-    scale_x_discrete(limits = week)
+    labs(x = "Day of the Week", y = "Count")
 ```
 
 ### Density plot
@@ -159,8 +155,6 @@ ggplot(data_fixed_time) +
         alpha = 0.7, scale = 1, show.legend = FALSE
     ) +
     labs(x = "Time", y = "Day") +
-    # order the wday (day of the week)
-    scale_y_discrete(limits = week) + 
     # x-axis name and intervals
     scale_x_datetime(breaks = date_breaks("2 hours"),  labels = date_format("%H:%M")) + 
     # coloring
