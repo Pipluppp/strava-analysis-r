@@ -1,38 +1,30 @@
-# Fixes to activity_date to date and time
+# Clean and add date and times
 library(tidyverse)
-library(janitor)
-library(scales)
-library(ggridges)
-library(viridis)
 
-df <- read_csv("activities.csv")
-df <- janitor::clean_names(df) # Clean column names
+df_datetime <- df_speed
 
-# Delete columns with all rows NA
-df <- df |> select(where(\(x) !all(is.na(x))))
-
-# Change to POSIXct datetime and add 8 hours due to Strava export differences
-df$activity_date <- df$activity_date |>
+# Change to datetime type (POSIXct)
+df_datetime$activity_date <- df_speed$activity_date |>
     lubridate::parse_date_time("mdyIMs p") |> # month, day, year, hour, minute, sec, pm/am
-    (`+`)(hours(8)) # adds hours(8), implicit function using ()()
+    (`+`)(hours(8)) # adds hours(8) due to Strava export difference, implicit function using ()()
 
-# Add date and wday column
-df_date <- df |> 
-    mutate(
-        date = lubridate::as_date(activity_date), .after = activity_date,
-        wday = wday(date, label = TRUE)
-    )
-
-# Run activities only, change activity_date as time column
-df_clean <- df_date  |>
-    filter(activity_type == "Run") |> 
-    rename(time = activity_date)
+# Make date column from activity_date
+df_month_week_day <- df_datetime |> 
+    mutate(date = lubridate::as_date(activity_date), .after = activity_date) |> 
     
-# Change to time
-# The variable time is a datetime (POSIXct)
-# Use hms to remove date data (we plot time in the interval 00:00-24:00, irrespective of date)
-# then back to POSIXct as ggplot only receives datetime
-df_datetime <- df_clean
-df_datetime$time <- hms::hms(second(df_clean$time), minute(df_clean$time), hour(df_clean$time)) |> 
+    # Reuse activity_date column as time
+    rename(time = activity_date)
+
+# Remove date component of the datetime (places all the dates of the time column to 1970)
+df_month_week_day$time <- hms::hms(second(df_month_week_day$time), minute(df_month_week_day$time), hour(df_month_week_day$time)) |> 
     as.POSIXct()
+
+# Add month, week, weekday columns
+df_month_week_day <- df_month_week_day |> 
+    mutate(
+        month = lubridate::month(date,  label = TRUE),
+        week  = lubridate::week(date),
+        wday  = lubridate::wday(date, label = TRUE)
+    ) |> 
+    relocate(month:wday, .after = date)
 
