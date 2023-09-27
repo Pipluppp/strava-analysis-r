@@ -28,3 +28,23 @@ ggplot(df_month_week_day) +
     geom_boxplot(aes(x = month, y = moving_time_m))
 
 
+# Mileage for the day than distance of a run
+# since I tend to do multiple Strava run sessions (warm up, cooldown, etc.)
+
+# Get mileage per day, then plot
+df_month_week_day |> 
+    group_by(date) |> 
+    summarise(mileage = sum(distance_km)) |> 
+    ggplot(aes(x = date, y = mileage)) +
+    geom_point() + 
+    geom_smooth(method = "lm")
+
+    
+
+
+
+
+
+
+
+
