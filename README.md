@@ -14,3 +14,5 @@ Made using [ggplot2](https://ggplot2.tidyverse.org/) from [Tidyverse](https://ww
 ![Multiple Density](https://raw.githubusercontent.com/Pipluppp/strava-analysis-r/master/strava_analysis_files/figure-html/density-multi-1.png)
 
 ![Ridgeline](https://raw.githubusercontent.com/Pipluppp/strava-analysis-r/master/strava_analysis_files/figure-html/ridgeline-1.png)
+
+![Dumbbell](https://raw.githubusercontent.com/Pipluppp/strava-analysis-r/master/viz/fig-dumbbell.png)

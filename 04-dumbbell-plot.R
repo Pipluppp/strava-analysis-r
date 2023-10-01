@@ -16,16 +16,25 @@ df_start_times <- df_month_week_day |>
     mutate(yday = lubridate::yday(date))
 
 # Plot structure
-
 df_start_times |> ggplot() + 
     geom_segment(
             aes(x = start_time, y = yday,
             xend = end_time, yend = yday
         ),
-        size = 0.1
+        size = 0.2
     ) +
-    geom_point(aes(x = start_time, y = yday, color = "coral3"), size = 1) + 
-    geom_point(aes(x = end_time, y = yday, color = "cyan4"), size = 1) +
-    scale_x_datetime(breaks = date_breaks("4 hours"), labels = date_format("%H:%M")) + 
-    scale_y_continuous(breaks = seq(0, 262, by = 50)) 
-    #scale_y_continuous(breaks = c(1, 100, 200, 300, 365))
+    geom_point(aes(x = start_time, y = yday, color = "coral3"), size = 0.5) + 
+    geom_point(aes(x = end_time, y = yday, color = "cyan4"), size = 0.5) +
+    scale_x_datetime(breaks = date_breaks("1 hour"), labels = date_format("%H:%M")) + 
+    scale_y_continuous(breaks = seq(0, 262, by = 30)) +
+    labs(
+        title = "Dumbbell plot of duration of each run",
+        x = "Time",
+        y = "Day of the year",
+        color = "Markers"
+    ) +
+    scale_color_manual(labels = c("Start", "End"), values = c("cyan4", "coral3"))
+    
+ggsave("viz/fig-dumbbell.png", width = 12, height = 12)
+
+
