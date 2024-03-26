@@ -1,7 +1,8 @@
 # Exploratory analysis
 library(tidyverse)
 
-df_month_week_day <- df_month_week_day
+# Limit to 2023
+df_month_week_day <- df_month_week_day |> filter(date < "2024-01-01")
 
 # Mileage by wday    
 ggplot(df_month_week_day) +
