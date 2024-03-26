@@ -1,4 +1,10 @@
-df_daily_mileage |> 
+df_daily_mileage_2023 <- df_month_week_day |> 
+    group_by(date) |> 
+    summarise(mileage = sum(distance_km)) |> 
+    mutate(month = lubridate::month(date, label = TRUE)) |> 
+    mutate(week = lubridate::week(date))
+
+df_daily_mileage_2023 |> 
     ggplot(aes(x = date, y = mileage)) +
     geom_col(width = 0.6) +
     scale_x_date(
